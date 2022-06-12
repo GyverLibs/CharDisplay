@@ -76,6 +76,7 @@ void bezier(uint8_t* arr, uint8_t size, uint8_t dense, uint8_t fill = 1);   // �
 void bezier16(int* arr, uint8_t size, uint8_t dense, uint8_t fill = 1);     // кривая Безье 16 бит. fill - GFX_CLEAR/GFX_FILL/GFX_STROKE
 void drawBitmap(int x, int y, const uint8_t *frame, int width, int height, uint8_t invert = 0, byte mode = 0);  // битмап
 
+print()/println() любые данные и текст (+ русский язык)
 void setCursor(int x, int y);           // установить курсор
 void setScale(uint8_t scale);           // масштаб текста
 void invertText(bool inv);              // инвертировать текст
