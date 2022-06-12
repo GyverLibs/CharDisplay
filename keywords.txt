@@ -1,0 +1,24 @@
+  
+#######################################
+# Syntax Coloring Map For CharDisplay
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+CharMatrix	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+CharBar	KEYWORD2
+CharPlot	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+CHAR_X1	LITERAL1
+CHAR_X2	LITERAL1
+CHAR_X4	LITERAL1
+CHAR_X8	LITERAL1
