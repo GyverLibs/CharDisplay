@@ -1,53 +1,60 @@
-[![Foo](https://img.shields.io/badge/Version-1.3-brightgreen.svg?style=flat-square)](#versions)
+[![Foo](https://img.shields.io/badge/Version-1.0-brightgreen.svg?style=flat-square)](#versions)
 [![Foo](https://img.shields.io/badge/Website-AlexGyver.ru-blue.svg?style=flat-square)](https://alexgyver.ru/)
 [![Foo](https://img.shields.io/badge/%E2%82%BD$%E2%82%AC%20%D0%9D%D0%B0%20%D0%BF%D0%B8%D0%B2%D0%BE-%D1%81%20%D1%80%D1%8B%D0%B1%D0%BA%D0%BE%D0%B9-orange.svg?style=flat-square)](https://alexgyver.ru/support_alex/)
 
-[![Foo](https://img.shields.io/badge/README-ENGLISH-brightgreen.svg?style=for-the-badge)](https://github-com.translate.goog/GyverLibs/GyverGFX?_x_tr_sl=ru&_x_tr_tl=en)
+[![Foo](https://img.shields.io/badge/README-ENGLISH-brightgreen.svg?style=for-the-badge)](https://github-com.translate.goog/GyverLibs/CharDisplay?_x_tr_sl=ru&_x_tr_tl=en)
 
-# GyverGFX
-Лёгкая библиотека двухмерной графики для дисплеев и матриц
-- Точки
-- Линии
-- Прямоугольники
-- Скруглённые прямоугольники
-- Круги
-- Кривая Безье
-- Битмап
-- Вывод текста (русский, английский) нескольких размеров
+# CharDisplay
+Библиотека для создания символьной графики:
+- **CharMatrix** - Матрица для полноценного рисования (4 стиля)
+- **CharBar** - Полосы загрузки (10 стилей)
+- **CharPlot** - График (4 стиля + 2 стиля заполнения + 2 стиля рамки)
+Отлично подходит для визуализации данных в отчётах при отправке на почту или через [Телеграм-бота](https://github.com/GyverLibs/FastBot)  
+**Внимание!** Нормально отображается не везде, нужен моноширинный шрифт.
 
 ### Совместимость
 Совместима со всеми Arduino платформами (используются Arduino-функции)
 
+### Зависимости
+Для работы CharMatrix нужна библиотека [GyverGFX](https://github.com/GyverLibs/GyverGFX)
+
 ## Содержание
 - [Установка](#install)
-- [Инициализация](#init)
-- [Использование](#usage)
-- [Пример](#example)
+- [CharMatrix](#matrix)
+- [CharPlot](#plot)
+- [CharBar](#bar)
 - [Версии](#versions)
 - [Баги и обратная связь](#feedback)
 
 <a id="install"></a>
 ## Установка
-- Библиотеку можно найти по названию **GyverGFX** и установить через менеджер библиотек в:
+- Библиотеку можно найти по названию **CharDisplay** и установить через менеджер библиотек в:
     - Arduino IDE
     - Arduino IDE v2
     - PlatformIO
-- [Скачать библиотеку](https://github.com/GyverLibs/GyverGFX/archive/refs/heads/main.zip) .zip архивом для ручной установки:
+- [Скачать библиотеку](https://github.com/GyverLibs/CharDisplay/archive/refs/heads/main.zip) .zip архивом для ручной установки:
     - Распаковать и положить в *C:\Program Files (x86)\Arduino\libraries* (Windows x64)
     - Распаковать и положить в *C:\Program Files\Arduino\libraries* (Windows x32)
     - Распаковать и положить в *Документы/Arduino/libraries/*
     - (Arduino IDE) автоматическая установка из .zip: *Скетч/Подключить библиотеку/Добавить .ZIP библиотеку…* и указать скачанный архив
 - Читай более подробную инструкцию по установке библиотек [здесь](https://alexgyver.ru/arduino-first/#%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0_%D0%B1%D0%B8%D0%B1%D0%BB%D0%B8%D0%BE%D1%82%D0%B5%D0%BA)
 
-<a id="init"></a>
-## Инициализация
+<a id="matrix"></a>
+## CharMatrix
+![matrix](/docs/matrix.png)
+### Инициализация
 ```cpp
-GyverGFX();
-GyverGFX(int x, int y); // с указанием размеров "экрана"
+CharMatrix<стиль> disp(ширина, высота);
+
+// стили:
+CHAR_X1
+CHAR_X2
+CHAR_X4
+CHAR_X8
 ```
 
-<a id="usage"></a>
-## Использование
+### Рисование
+Наследуется из GyverGFX
 ```cpp
 // fill:
 // GFX_CLEAR - очистить
@@ -55,7 +62,7 @@ GyverGFX(int x, int y); // с указанием размеров "экрана"
 // GFX_STROKE - обвести фигуру
 
 void size(int x, int y);                                            // установить размер
-virtual void dot(int x, int y, uint8_t fill = 1);                   // точка
+void dot(int x, int y, uint8_t fill = 1);                           // точка
 void fill(uint8_t fill = 1);                                        // залить
 void clear();                                                       // очистить
 void fastLineH(int y, int x0, int x1, uint8_t fill = 1);            // вертикальная линия
@@ -75,23 +82,51 @@ void autoPrintln(bool mode);            // автоматический пере
 void textDisplayMode(bool mode);        // режим вывода текста GFX_ADD/GFX_REPLACE
 ```
 
-<a id="example"></a>
-## Пример
+### Вывод
 ```cpp
-// пример наследования в класс
-class MAX7219 : public GyverGFX {
-public:
-    MAX7219() : GyverGFX(width * 8, height * 8) {
-        begin();
-    }
+String render();
+```
+
+<a id="plot"></a>
+## CharPlot
+![plots](/docs/plots.png)
+```cpp
+String CharPlot<стиль>(float*, ширина, высота);
+String CharPlot<стиль>(float*, ширина, высота, fill);
+String CharPlot<стиль>(float*, ширина, высота, fill, border);
+
+// fill (0, 1) - заполнять пустоты пробелами или точками
+// border (0, 1) - сплошной или двойной стиль рамки
+
+// стили:
+LINE_X1
+LINE_X2
+COLON_X2
+COLON_X1
+```
+
+<a id="bar"></a>
+## CharBar
+![bars](/docs/bars.png)
+```cpp
+String CharBar<стиль>(размер, заполнение 0-100);
+
+// стили:
+BAR_SQUARE
+BAR_SQUARE2
+BAR_SQUARE3
+BAR_DIAMOND
+BAR_RECT
+BAR_RECT2
+BAR_BLOCK
+BAR_BLOCK2
+BAR_CIRCLE
+BAR_CIRCLE2
 ```
 
 <a id="versions"></a>
 ## Версии
 - v1.0
-- v1.1 - оптимизация памяти
-- v1.2 - небольшая оптимизация
-- v1.3 - добавил фичи
 
 <a id="feedback"></a>
 ## Баги и обратная связь
