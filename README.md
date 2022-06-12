@@ -91,12 +91,12 @@ String render();
 ## CharPlot
 ![plots](/docs/plots.png)
 ```cpp
-String CharPlot<стиль>(float*, ширина, высота);
-String CharPlot<стиль>(float*, ширина, высота, fill);
-String CharPlot<стиль>(float*, ширина, высота, fill, border);
+String CharPlot<стиль>(float*, ширина (размер массива), высота);
+String CharPlot<стиль>(float*, ширина (размер массива), высота, fill);
+String CharPlot<стиль>(float*, ширина (размер массива), высота, fill, border);
 
-// fill (0, 1) - заполнять пустоты пробелами или точками
-// border (0, 1) - сплошной или двойной стиль рамки
+// fill (0, 1) - заполнять пустоты пробелами или точками (умолч. 1)
+// border (0, 1) - сплошной или двойной стиль рамки (умолч. 0)
 
 // стили:
 LINE_X1
