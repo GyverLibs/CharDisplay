@@ -1,6 +1,5 @@
 [![latest](https://img.shields.io/github/v/release/GyverLibs/CharDisplay.svg?color=brightgreen)](https://github.com/GyverLibs/CharDisplay/releases/latest/download/CharDisplay.zip)
 [![PIO](https://badges.registry.platformio.org/packages/gyverlibs/library/CharDisplay.svg)](https://registry.platformio.org/libraries/gyverlibs/CharDisplay)
-[![arduino-library](https://www.ardu-badge.com/badge/CharDisplay.svg?)](https://www.ardu-badge.com/CharDisplay)
 [![PIO](https://badges.registry.platformio.org/packages/gyverlibs/library/CharDisplay.svg)](https://registry.platformio.org/libraries/gyverlibs/CharDisplay)
 [![arduino-library](https://www.ardu-badge.com/badge/CharDisplay.svg?)](https://www.ardu-badge.com/CharDisplay)
 [![Foo](https://img.shields.io/badge/Website-AlexGyver.ru-blue.svg?style=flat-square)](https://alexgyver.ru/)
