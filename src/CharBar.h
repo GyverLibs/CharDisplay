@@ -1,5 +1,4 @@
-#ifndef _CharBar_h
-#define _CharBar_h
+#pragma once
 #include <Arduino.h>
 
 #define BAR_SQUARE 0
@@ -21,19 +20,39 @@ String CharBar(int len, int perc) {
     int fill = (len * perc + 100 - 1) / 100;
     if (type == BAR_RECT) s += '[';
     for (int i = 0; i < len; i++) {
-        if (type == BAR_SQUARE) s += (i < fill) ? F("■") : F("□");
-        else if (type == BAR_SQUARE2) s += (i < fill) ? F("◼") : F("◻");
-        else if (type == BAR_SQUARE3) s += (i < fill) ? F("⬛") : F("⬜");
-        else if (type == BAR_DIAMOND) s += (i < fill) ? F("▰") : F("▱");
-        else if (type == BAR_RECT) s += (i < fill) ? F("⧯") : F("⧮");
-        else if (type == BAR_RECT2) s += (i < fill) ? F("▮") : F("▯");
-        else if (type == BAR_BLOCK) s += (i < fill) ? F("█") : F("⠀");
-        else if (type == BAR_BLOCK2) s += (i < fill) ? F("█") : F("░");
-        else if (type == BAR_CIRCLE) s += (i < fill) ? F("⬤") : F("◯");
-        else if (type == BAR_CIRCLE2) s += (i < fill) ? F("⚫") : F("⚪");
+        switch (type) {
+            case BAR_SQUARE:
+                s += (i < fill) ? F("■") : F("□");
+                break;
+            case BAR_SQUARE2:
+                s += (i < fill) ? F("◼") : F("◻");
+                break;
+            case BAR_SQUARE3:
+                s += (i < fill) ? F("⬛") : F("⬜");
+                break;
+            case BAR_DIAMOND:
+                s += (i < fill) ? F("▰") : F("▱");
+                break;
+            case BAR_RECT:
+                s += (i < fill) ? F("⧯") : F("⧮");
+                break;
+            case BAR_RECT2:
+                s += (i < fill) ? F("▮") : F("▯");
+                break;
+            case BAR_BLOCK:
+                s += (i < fill) ? F("█") : F("⠀");
+                break;
+            case BAR_BLOCK2:
+                s += (i < fill) ? F("█") : F("░");
+                break;
+            case BAR_CIRCLE:
+                s += (i < fill) ? F("⬤") : F("◯");
+                break;
+            case BAR_CIRCLE2:
+                s += (i < fill) ? F("⚫") : F("⚪");
+                break;
+        }
     }
     if (type == BAR_RECT) s += ']';
     return s;
 }
-
-#endif

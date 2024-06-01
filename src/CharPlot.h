@@ -1,5 +1,4 @@
-#ifndef _CharPlot_h
-#define _CharPlot_h
+#pragma once
 #include <Arduino.h>
 
 #define LINE_X1 0
@@ -19,7 +18,7 @@ String CharPlot(float* buf, int W, int H, bool fill = 1, bool border = 0) {
     s += border ? F("┏") : F("╔");
     for (int i = 0; i < frame; i++) s += border ? F("━") : F("═");
     s += border ? F("┓\n") : F("╗\n");
-    
+
     float mn = buf[0];
     float mx = buf[0];
     for (int i = 0; i < W; i++) {
@@ -35,7 +34,7 @@ String CharPlot(float* buf, int W, int H, bool fill = 1, bool border = 0) {
         blocks[i] = v + 1 - shift;
     }
     delta /= (H - shift);
-    
+
     for (int h = 0; h < H; h++) {
         s += border ? F("┃") : F("║");
         // LINE_X1
@@ -52,15 +51,33 @@ String CharPlot(float* buf, int W, int H, bool fill = 1, bool border = 0) {
                     if (blocks[w + i] == H - h - shift) sub[i] = (fracts[w + i] >= 5) ? 0b10 : 0b01;
                 }
                 switch ((sub[0] << 2) | sub[1]) {
-                case 0b0000: s += fill ? F("░") : F("⠀"); break;
-                case 0b1000: s += F("▘"); break;
-                case 0b0010: s += F("▝"); break;
-                case 0b0100: s += F("▖"); break;
-                case 0b0001: s += F("▗"); break;
-                case 0b1010: s += F("▀"); break;
-                case 0b0101: s += F("▄"); break;
-                case 0b1001: s += F("▚"); break;
-                case 0b0110: s += F("▞"); break;
+                    case 0b0000:
+                        s += fill ? F("░") : F("⠀");
+                        break;
+                    case 0b1000:
+                        s += F("▘");
+                        break;
+                    case 0b0010:
+                        s += F("▝");
+                        break;
+                    case 0b0100:
+                        s += F("▖");
+                        break;
+                    case 0b0001:
+                        s += F("▗");
+                        break;
+                    case 0b1010:
+                        s += F("▀");
+                        break;
+                    case 0b0101:
+                        s += F("▄");
+                        break;
+                    case 0b1001:
+                        s += F("▚");
+                        break;
+                    case 0b0110:
+                        s += F("▞");
+                        break;
                 }
             }
             // COLON_X2
@@ -72,15 +89,33 @@ String CharPlot(float* buf, int W, int H, bool fill = 1, bool border = 0) {
                     else if (blocks[w + i] == H - h - shift) sub[i] = (fracts[w + i] >= 5) ? 0b11 : 0b01;
                 }
                 switch ((sub[0] << 2) | sub[1]) {
-                case 0b0000: s += fill ? F("░") : F("⠀"); break;
-                case 0b1100: s += F("▌"); break;
-                case 0b0011: s += F("▐"); break;
-                case 0b1101: s += F("▙"); break;
-                case 0b0111: s += F("▟"); break;
-                case 0b0101: s += F("▄"); break;
-                case 0b0100: s += F("▖"); break;
-                case 0b0001: s += F("▗"); break;
-                case 0b1111: s += F("█"); break;
+                    case 0b0000:
+                        s += fill ? F("░") : F("⠀");
+                        break;
+                    case 0b1100:
+                        s += F("▌");
+                        break;
+                    case 0b0011:
+                        s += F("▐");
+                        break;
+                    case 0b1101:
+                        s += F("▙");
+                        break;
+                    case 0b0111:
+                        s += F("▟");
+                        break;
+                    case 0b0101:
+                        s += F("▄");
+                        break;
+                    case 0b0100:
+                        s += F("▖");
+                        break;
+                    case 0b0001:
+                        s += F("▗");
+                        break;
+                    case 0b1111:
+                        s += F("█");
+                        break;
                 }
             }
             // COLON_X1
@@ -90,10 +125,9 @@ String CharPlot(float* buf, int W, int H, bool fill = 1, bool border = 0) {
                 else if (blocks[w] == H - h) {
                     uint32_t u = fracts[w] * 8 / 10 + 0x2581;
                     s += char((u >> 12 & 0x0F) | 0xE0);
-                    s += char((u >> 6  & 0x3F) | 0x80);
+                    s += char((u >> 6 & 0x3F) | 0x80);
                     s += char((u & 0x3F) | 0x80);
-                }
-                else s += fill ? F("░") : F("⠀");
+                } else s += fill ? F("░") : F("⠀");
             }
         }
         s += border ? F("┣ ") : F("╠ ");
@@ -105,5 +139,3 @@ String CharPlot(float* buf, int W, int H, bool fill = 1, bool border = 0) {
     s += border ? F("┛\n") : F("╝\n");
     return s;
 }
-
-#endif
