@@ -45,13 +45,25 @@ CHAR_X4
 CHAR_X8
 ```
 
+Перед подключением библиотеки можно указать символы, которыми выводить стиль `CHAR_X1`. Например:
+```cpp
+#define CM_X1_CLEAR ' '
+#define CM_X1_FILL '#'
+
+#include <CharMatrix.h>
+CharMatrix<CHAR_X1> disp(32, 12);
+```
+
 ### Рисование
 Наследуется из [GyverGFX](https://github.com/GyverLibs/GyverGFX)
 
 ### Вывод
 ```cpp
+// напечатать в Print
+size_t printTo(Print& p);
+
+// вывести как String
 String render();
-void render(Print& p);
 ```
 
 <a id="plot"></a>
