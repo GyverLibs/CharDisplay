@@ -50,6 +50,9 @@ CHAR_X8
 #define CM_X1_CLEAR ' '
 #define CM_X1_FILL '#'
 
+// #define CM_X1_CLEAR "[]"
+// #define CM_X1_FILL "██"
+
 #include <CharMatrix.h>
 CharMatrix<CHAR_X1> disp(32, 12);
 ```
