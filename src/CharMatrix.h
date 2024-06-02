@@ -4,6 +4,13 @@
 #include <BitPack.h>
 #include <GyverGFX.h>
 
+#ifndef CM_X1_FILL
+#define CM_X1_FILL F("⬛")
+#endif
+#ifndef CM_X1_CLEAR
+#define CM_X1_CLEAR F("⬜")
+#endif
+
 #define CHAR_X1 1
 #define CHAR_X2 2
 #define CHAR_X4 4
@@ -53,7 +60,7 @@ class CharMatrix : public GyverGFX, public Printable {
         switch (TYPE) {
             case CHAR_X1:
                 for (uint16_t j = 0; j < height(); j++) {
-                    for (uint16_t i = 0; i < width(); i++) p.print(xy(i, j) ? F("⬛") : F("⬜"));
+                    for (uint16_t i = 0; i < width(); i++) p.print(xy(i, j) ? CM_X1_FILL : CM_X1_CLEAR);
                     p.println();
                 }
                 break;
