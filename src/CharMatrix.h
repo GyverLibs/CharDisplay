@@ -1,7 +1,5 @@
 #pragma once
-
 #include <Arduino.h>
-#include <BitPack.h>
 #include <GyverGFX.h>
 
 #ifndef CM_X1_FILL
@@ -40,19 +38,24 @@ class CharMatrix : public GyverGFX, public Printable {
         }
 
         size(w, h);
-        buf.init(w * h);
+        buf = new uint8_t[(uint32_t)w * h / 8];
+    }
+    ~CharMatrix() {
+        delete[] buf;
     }
 
     void dot(int x, int y, uint8_t fill = 1) {
-        buf.write(x + y * width(), fill);
+        if (!buf) return;
+        uint32_t idx = x + (uint32_t)y * width();
+        bitWrite(buf[idx >> 3], (idx & 0b111), fill);
     }
 
     void clear() {
-        buf.clearAll();
+        if (buf) memset(buf, 0x00, (uint32_t)width() * height() / 8);
     }
 
     void fill() {
-        buf.setAll();
+        if (buf) memset(buf, 0xff, (uint32_t)width() * height() / 8);
     }
 
     // напечатать в Print
@@ -70,18 +73,10 @@ class CharMatrix : public GyverGFX, public Printable {
                     for (uint16_t i = 0; i < width(); i++) {
                         uint8_t v = xy(i, j) | (xy(i, j + 1) << 1);
                         switch (v) {
-                            case 0:
-                                p.print(F("⠀"));
-                                break;
-                            case 1:
-                                p.print(F("▀"));
-                                break;
-                            case 2:
-                                p.print(F("▄"));
-                                break;
-                            case 3:
-                                p.print(F("█"));
-                                break;
+                            case 0: p.print(F("⠀")); break;
+                            case 1: p.print(F("▀")); break;
+                            case 2: p.print(F("▄")); break;
+                            case 3: p.print(F("█")); break;
                         }
                     }
                     p.println();
@@ -93,54 +88,22 @@ class CharMatrix : public GyverGFX, public Printable {
                     for (uint16_t i = 0; i < width(); i += 2) {
                         uint8_t v = xy(i, j) | (xy(i + 1, j) << 1) | (xy(i, j + 1) << 2) | (xy(i + 1, j + 1) << 3);
                         switch (v) {
-                            case 0:
-                                p.print(F("⠀"));
-                                break;
-                            case 1:
-                                p.print(F("▘"));
-                                break;
-                            case 2:
-                                p.print(F("▝"));
-                                break;
-                            case 3:
-                                p.print(F("▀"));
-                                break;
-                            case 4:
-                                p.print(F("▖"));
-                                break;
-                            case 5:
-                                p.print(F("▌"));
-                                break;
-                            case 6:
-                                p.print(F("▞"));
-                                break;
-                            case 7:
-                                p.print(F("▛"));
-                                break;
-                            case 8:
-                                p.print(F("▗"));
-                                break;
-                            case 9:
-                                p.print(F("▚"));
-                                break;
-                            case 10:
-                                p.print(F("▐"));
-                                break;
-                            case 11:
-                                p.print(F("▜"));
-                                break;
-                            case 12:
-                                p.print(F("▄"));
-                                break;
-                            case 13:
-                                p.print(F("▙"));
-                                break;
-                            case 14:
-                                p.print(F("▟"));
-                                break;
-                            case 15:
-                                p.print(F("█"));
-                                break;
+                            case 0: p.print(F("⠀")); break;
+                            case 1: p.print(F("▘")); break;
+                            case 2: p.print(F("▝")); break;
+                            case 3: p.print(F("▀")); break;
+                            case 4: p.print(F("▖")); break;
+                            case 5: p.print(F("▌")); break;
+                            case 6: p.print(F("▞")); break;
+                            case 7: p.print(F("▛")); break;
+                            case 8: p.print(F("▗")); break;
+                            case 9: p.print(F("▚")); break;
+                            case 10: p.print(F("▐")); break;
+                            case 11: p.print(F("▜")); break;
+                            case 12: p.print(F("▄")); break;
+                            case 13: p.print(F("▙")); break;
+                            case 14: p.print(F("▟")); break;
+                            case 15: p.print(F("█")); break;
                         }
                     }
                     p.println();
@@ -184,7 +147,6 @@ class CharMatrix : public GyverGFX, public Printable {
     // вывести как String
     String render() const {
         printstring s;
-
         switch (TYPE) {
             case CHAR_X1:
                 s.reserve(width() * height() * 3 + height());
@@ -204,25 +166,33 @@ class CharMatrix : public GyverGFX, public Printable {
         return s;
     }
 
-    CharMatrix(const CharMatrix& val) {
-        buf.copy(val.buf);
+    CharMatrix(CharMatrix& val) {
+        copy(val);
     }
-    void operator=(const CharMatrix& val) {
-        buf.copy(val.buf);
+    void operator=(CharMatrix& val) {
+        copy(val);
     }
 
 #if __cplusplus >= 201103L
     CharMatrix(CharMatrix&& rval) noexcept {
-        buf.move(rval.buf);
+        move(rval);
     }
     void operator=(CharMatrix&& rval) noexcept {
-        buf.move(rval.buf);
+        move(rval);
     }
 #endif
 
-   private:
-    bool xy(int x, int y) const {
-        return buf.read(x + y * width());
+    void move(CharMatrix& val) {
+        delete[] buf;
+        buf = val.buf;
+        val.buf = nullptr;
     }
-    BitPackDyn buf;
+
+   private:
+    uint8_t* buf = nullptr;
+
+    bool xy(int x, int y) const {
+        uint32_t idx = x + (uint32_t)y * width();
+        return bitRead(buf[idx >> 3], (idx & 0b111));
+    }
 };

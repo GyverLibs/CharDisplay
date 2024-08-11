@@ -51,33 +51,15 @@ String CharPlot(float* buf, int W, int H, bool fill = 1, bool border = 0) {
                     if (blocks[w + i] == H - h - shift) sub[i] = (fracts[w + i] >= 5) ? 0b10 : 0b01;
                 }
                 switch ((sub[0] << 2) | sub[1]) {
-                    case 0b0000:
-                        s += fill ? F("░") : F("⠀");
-                        break;
-                    case 0b1000:
-                        s += F("▘");
-                        break;
-                    case 0b0010:
-                        s += F("▝");
-                        break;
-                    case 0b0100:
-                        s += F("▖");
-                        break;
-                    case 0b0001:
-                        s += F("▗");
-                        break;
-                    case 0b1010:
-                        s += F("▀");
-                        break;
-                    case 0b0101:
-                        s += F("▄");
-                        break;
-                    case 0b1001:
-                        s += F("▚");
-                        break;
-                    case 0b0110:
-                        s += F("▞");
-                        break;
+                    case 0b0000: s += fill ? F("░") : F("⠀"); break;
+                    case 0b1000: s += F("▘"); break;
+                    case 0b0010: s += F("▝"); break;
+                    case 0b0100: s += F("▖"); break;
+                    case 0b0001: s += F("▗"); break;
+                    case 0b1010: s += F("▀"); break;
+                    case 0b0101: s += F("▄"); break;
+                    case 0b1001: s += F("▚"); break;
+                    case 0b0110: s += F("▞"); break;
                 }
             }
             // COLON_X2
@@ -89,33 +71,15 @@ String CharPlot(float* buf, int W, int H, bool fill = 1, bool border = 0) {
                     else if (blocks[w + i] == H - h - shift) sub[i] = (fracts[w + i] >= 5) ? 0b11 : 0b01;
                 }
                 switch ((sub[0] << 2) | sub[1]) {
-                    case 0b0000:
-                        s += fill ? F("░") : F("⠀");
-                        break;
-                    case 0b1100:
-                        s += F("▌");
-                        break;
-                    case 0b0011:
-                        s += F("▐");
-                        break;
-                    case 0b1101:
-                        s += F("▙");
-                        break;
-                    case 0b0111:
-                        s += F("▟");
-                        break;
-                    case 0b0101:
-                        s += F("▄");
-                        break;
-                    case 0b0100:
-                        s += F("▖");
-                        break;
-                    case 0b0001:
-                        s += F("▗");
-                        break;
-                    case 0b1111:
-                        s += F("█");
-                        break;
+                    case 0b0000: s += fill ? F("░") : F("⠀"); break;
+                    case 0b1100: s += F("▌"); break;
+                    case 0b0011: s += F("▐"); break;
+                    case 0b1101: s += F("▙"); break;
+                    case 0b0111: s += F("▟"); break;
+                    case 0b0101: s += F("▄"); break;
+                    case 0b0100: s += F("▖"); break;
+                    case 0b0001: s += F("▗"); break;
+                    case 0b1111: s += F("█"); break;
                 }
             }
             // COLON_X1
